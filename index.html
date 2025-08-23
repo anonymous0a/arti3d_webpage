@@ -43,6 +43,42 @@
         height: 500px;
       }
     </style>
+
+    <style>
+      /* --- CSS for Automatic List Numbering (No Heading Number) --- */
+
+      /* 1. Style the FIRST level of list items (e.g., "1.", "2.") */
+      .steps-list {
+        list-style-type: none; 
+        padding-left: 20px;
+        counter-reset: step-counter; /* Create the main counter for the list */
+        font-size: 1.25rem; 
+        margin-bottom: 1rem;
+      }
+      .steps-list > li { /* Use > to select only direct children */
+        counter-increment: step-counter; /* Add 1 for each list item */
+        margin-bottom: 0.5rem;
+      }
+      .steps-list > li::before {
+        content: counter(step-counter) ". "; /* Display the counter (e.g., "1.") */
+        font-weight: bold;
+      }
+
+      /* 2. Style the NESTED list for indented sub-points (e.g., "2.1.") */
+      .steps-list ol {
+        list-style-type: none;
+        counter-reset: sub-step-counter; /* Create a new counter for the sub-list */
+        padding-left: 30px; /* Controls the indentation */
+        margin-top: 0.5rem;
+      }
+      .steps-list ol li::before {
+        counter-increment: sub-step-counter;
+        /* Combine the parent list's counter with the sub-list's counter */
+        content: counter(step-counter) "." counter(sub-step-counter) ". "; 
+        font-weight: normal; 
+      }
+    </style>
+
   </head>
   <body>
     <div id="all">
@@ -115,7 +151,7 @@
                 We can then align the mesh to the target images through a multi-view pose optimization step. 
               </p>
               <p class="lead mb-small"> 
-                We introduce a self-attention rewiring mechanism <strong>RSActrl</strong> that decouples the source shape from pose within an image generative model, allowing it to maintain a consistent shape across varying poses.
+                We introduce a self-attention rewiring mechanism <strong>RSActrl</strong> that decouples the source structure from pose within an image generative model, allowing it to maintain a consistent structure across varying poses.
               </p>
               <p class="lead mb-small"> 
                 We can then apply this modification to a multi-view diffusion model such as MVDream without the need for retraining. We observed that differentiable rendering is an unreliable signal for articulation optimization; 
@@ -133,17 +169,50 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <h2> Flow Diagram of Articulate3D</h2>
-                <p class="lead mb-small"> 
-                This consists of 2 main steps: <br>
-                1. RSActrl Module <br>
-                2. 3D Mesh Optimization
-                </p>
-              <img src="examples/articulate3D_flow_diagram.webp" alt="" class="img-fluid image1 mb-small" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+
+              <h2> Flow and Architecture Diagram of Articulate3D</h2>
+              <p class="lead">This consists of 2 main steps:</p>
+
+              <ol class="steps-list">
+                <li>RSActrl Module</li>
+                <li>Multi-view Mesh Optimization
+
+                  <ol>
+                    <li>Keypoint Detection</li>
+                    <li>Keypoint Alignment</li>
+                  </ol>
+
+                </li>
+              </ol>
+
+              <video controls autoplay loop muted inline playsinline style="width: 100%; height: auto;">
+                <source src="examples/arti3D_flow_archi_video.mov" type="video/mp4">
+              </video>
             </div>
           </div>
         </div>
       </section>
+
+      <!-- <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2> Flow and Architecture Diagram of Articulate3D</h2>
+                <p class="lead mb-small"> 
+                This consists of 2 main steps: <br>
+                1. RSActrl Module <br>
+                2. Multi-view Mesh Optimization <br>
+                2.1. Keypoint Detection <br>
+                2.2. Keypoint Alignment
+                </p>
+              <img src="examples/articulate3D_flow_diagram.webp" alt="" class="img-fluid image1 mb-small" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+              <video controls autoplay loop muted inline playsinline style="width: 100%; height: auto;">
+                <source src="examples/arti3D_flow_archi_video.mov" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+      </section> -->
 
       <section class="bar bg-white mb-0 padding-small">
         <div class="container">
@@ -964,7 +1033,7 @@
           </div>
       </section>
       
-      <section class="bar bg-white mb-0 padding-small">
+      <!-- <section class="bar bg-white mb-0 padding-small">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -976,7 +1045,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> -->
       
 
       <!-- <section class="bar bg-white mb-0 padding-small">
